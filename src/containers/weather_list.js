@@ -3,16 +3,20 @@ import { connect } from 'react-redux';
 import Chart from '../components/chart';
 class WeatherList extends Component {
   renderWeather(cityData) {
-    const name = typeof cityData === 'undefined' ? null : cityData.city.name;
-    const temps = typeof cityData === 'undefined' ? null : cityData.list.map(weather => weather.main.temp);
+    const bool_citydata = typeof cityData === 'undefined';
+    const name =  bool_citydata ? null : cityData.city.name;
+    const temps = bool_citydata ? null : cityData.list.map(weather => weather.main.temp);
+    const pressures = bool_citydata ? null : cityData.list.map(weather => weather.main.pressure);
+    const humidities = bool_citydata ? null : cityData.list.map(weather => weather.main.humidity);
+
 
     if (!name) return ;
     return (
       <tr key={name}>
         <td>{name}</td>
-        <td>
-          <Chart data={temps} color="orange"></Chart>
-        </td>
+        <td><Chart data={temps} color="orange" units="K"></Chart></td>
+        <td><Chart data={pressures} color="green" units="hPa"></Chart></td>
+        <td><Chart data={humidities} color="red" units="%"></Chart></td>
       </tr>
     );
   }
